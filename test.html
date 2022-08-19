@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        div{
+            
+            width:200px;
+            height:400px;
+            border:2px black solid;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div id="map"></div>
+
+    <div id="map2"></div>
+
+</body>
+
+<script>
+
+    let map = document.getElementById("map");
+
+    let canv = document.createElement("canvas");
+    canv.style.border="solid black 1px"
+    canv.style.height="300px";
+    canv.style.width="600px";
+    let ctx = canv.getContext("2d");
+    let pix=10;
+    ctx.fillRect(10*9,0,pix,pix);//10개 까지 가능
+    ctx.fillRect(0,0,pix,pix);
+    map.appendChild(canv);
+    let times=0;
+    let TI=null;
+    
+
+    TI=setInterval(() => {
+        
+        ctx.clearRect(0,times*pix,pix,pix);
+        times++;
+        ctx.fillRect(0,times*pix,pix,pix); //가로 , 세로
+        if(times==14){ //세로 15개 까지 가능
+            clearInterval(TI);
+        }
+
+    }, 1000);
+
+
+    let canv2=document.createElement("canvas");
+    canv2.style.height="400px";
+    canv2.style.width="800px";
+    let ctx2 = canv2.getContext("2d");
+    ctx2.fillRect(0,0,20,20);
+    map2.appendChild(canv2);
+    canv2.style.position="relative";
+
+</script>
+</html>
