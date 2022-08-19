@@ -67,7 +67,7 @@ function phase(){
             console.log(now_tetris.arr);
         }
 
-    },200)
+    },50)
 
 
 
@@ -75,7 +75,16 @@ function phase(){
 
 function check_for_stop(now){
 
-    now.arr.forEach((ele)=>{
+    let arr = new Array(4);
+    let result=true;
+
+    for(let i=0; i<4; i++){
+        arr[i]=now.arr[i];
+    }
+
+    arr.forEach((ele)=>{
+
+       
 
         if(ele[0]>=Number(0)){
 
@@ -87,7 +96,7 @@ function check_for_stop(now){
                 clearInterval(timerId);//비동기
                 console.log("clear interval");
 
-                now.arr.forEach((ele)=>{
+                arr.forEach((ele)=>{
                 
                     console.log("detected : "+ele);
                     space[ele[0]][ele[1]]=1;
@@ -98,18 +107,20 @@ function check_for_stop(now){
                     console.log("새로운 페이즈 시작")
                     phase();
                 }else{
+
+                   
                     console.log("게임 종료.");
                 }
     
 
 
-                return false;
+                result= false;
             }
         }
 
     });
 
-    return true;
+    return result;
 }
 
 function loop(){
@@ -129,7 +140,7 @@ function live_check(now){
         console.log("live check : "+ele[0])
         if(ele[0]<=0){
 
-            draw();
+            
 
             result= false;
         }
@@ -141,6 +152,8 @@ function live_check(now){
 
 function draw(){
 
+    console.log(now_tetris.arr);
+
     while(!legacy.isEmpty()){
 
         eraseOne(legacy.pop());
@@ -149,6 +162,7 @@ function draw(){
 
     now_tetris.arr.forEach((ele)=>{
 
+        console.log("drawing....")
         drawOne(ele);
         legacy.push([ele[0],ele[1]]);
 
