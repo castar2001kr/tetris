@@ -99,6 +99,8 @@ function check_for_stop(now){
                 arr.forEach((ele)=>{
                 
                     console.log("detected : "+ele);
+
+                    if(ele[0]>=0)
                     space[ele[0]][ele[1]]=1;
                 })
 
