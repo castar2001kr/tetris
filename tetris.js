@@ -17,6 +17,14 @@ class Tetris{
         this.arr[2]=gen.cases[ran][0];
         this.arr[3]=gen.cases[ran][1];
 
+        if(gen.cases[ran][2]){
+
+            console.log("center is...."+ gen.cases[ran][2]);
+            this.center = this.arr[gen.cases[ran][2]];
+            this.centerN =gen.cases[ran][2];
+        }
+        else this.center=0;
+
         this.len = gen.len[ran];
 
     }
@@ -31,11 +39,11 @@ class Generator {
 
         this.base = [[0-4,0],[0-4,1]];
         this.cases=new Array();
-        this.cases[0] = [[0-4,2],[0-4,3]];
-        this.cases[1] = [[0-4,2],[1-4,2]]; 
-        this.cases[2] = [[0-4,2],[1-4,1]];
-        this.cases[3] = [[0-4,2],[1-4,0]];
-        this.cases[4] = [[1-4,0],[1-4,1]];
+        this.cases[0] = [[0-4,2],[0-4,3],3];
+        this.cases[1] = [[0-4,2],[1-4,2],1]; 
+        this.cases[2] = [[0-4,2],[1-4,1],1];
+        this.cases[3] = [[0-4,2],[1-4,0],1];
+        this.cases[4] = [[1-4,0],[1-4,1],null];
 
         this.len=new Array();
         this.len[0]=4;
@@ -43,6 +51,7 @@ class Generator {
         this.len[2]=3;
         this.len[3]=3;
         this.len[4]=2;
+
 
     }
     

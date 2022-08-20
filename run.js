@@ -38,6 +38,16 @@ let ctx=canv.getContext("2d");
 
 map.appendChild(canv);
 
+let btn =document.getElementById("turn");
+
+btn.addEventListener("click",turn);
+
+let lft=document.getElementById("left");
+let rit=document.getElementById("right");
+
+lft.addEventListener("click",mv_left);
+rit.addEventListener("click",mv_right);
+
 phase();
 
 
@@ -58,6 +68,8 @@ function phase(){
         console.log("y좌표 : "+ele[0]);
     })
 
+    
+
     timerId=setInterval(()=>{
 
         if(check_for_stop(now_tetris)){
@@ -67,7 +79,7 @@ function phase(){
             console.log(now_tetris.arr);
         }
 
-    },50)
+    },300)
 
 
 
@@ -82,47 +94,139 @@ function check_for_stop(now){
         arr[i]=now.arr[i];
     }
 
+    let found=false;
+
     arr.forEach((ele)=>{
 
        
+        if(!found){
 
-        if(ele[0]>=Number(0)){
+            if(ele[0]>=Number(0)){
 
-            console.log( "0보다 큰 값 :"+ ele[0])
-            console.log("phase num : "+(phase_num-1))
-            
-            if(ele[0]==height-1||space[ele[0]+1][ele[1]]==1){
                 
-                clearInterval(timerId);//비동기
-                console.log("clear interval");
-
-                arr.forEach((ele)=>{
-                
-                    console.log("detected : "+ele);
-
-                    if(ele[0]>=0)
-                    space[ele[0]][ele[1]]=1;
-                })
-
-
-                if(live_check(now)){
-                    console.log("새로운 페이즈 시작")
-                    phase();
-                }else{
-
-                   
-                    console.log("게임 종료.");
-                }
     
-
-
-                result= false;
+                console.log( "0보다 큰 값 :"+ ele[0])
+                console.log("phase num : "+(phase_num-1))
+                
+                if(ele[0]==height-1||space[ele[0]+1][ele[1]]==1){
+                    found=true;
+                    clearInterval(timerId);
+                    console.log("clear interval");
+    
+                    arr.forEach((ele)=>{
+                    
+                        console.log("detected : "+ele);
+    
+                        if(ele[0]>=0)
+                        space[ele[0]][ele[1]]=1;
+                    })
+    
+    
+                    if(live_check(now)){
+                        console.log("새로운 페이즈 시작")
+                        phase();
+                    }else{
+    
+                       
+                        console.log("게임 종료.");
+                    }
+        
+    
+    
+                    result= false;
+                    console.log(result)
+                }
             }
         }
 
     });
 
     return result;
+}
+
+function mv_left(){
+
+    let able=true;
+    let temp=new Stack();
+
+    now_tetris.arr.forEach((ele)=>{
+
+        let x=ele[1]-1;
+        let y=ele[0];
+
+        console.log("------------------------------------------")
+        console.log("x : "+x);
+        console.log("y : "+y);
+
+        if(x>=0&&x<width && y<0||x>=0&&x<width && y<height && space[y][x]==0){
+
+            temp.push([y,x]);
+            
+        }else{
+            console.log("!!!!!!!!!!1unabled!!!!!!!!!!!!")
+            able=false;
+        }
+
+
+    })
+
+
+    if(able){
+        for(let i=3; i>=0;i--){
+            now_tetris.arr[i]=temp.pop();
+            now_tetris.center=now_tetris.arr[now_tetris.centerN];
+        }
+
+        draw();
+        
+
+    }
+
+
+}
+
+function mv_right(){
+
+    let able=true;
+    let temp=new Stack();
+
+    console.log("right!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    
+
+    now_tetris.arr.forEach((ele)=>{
+
+        let x=ele[1]+1;
+        let y=ele[0];
+
+        console.log("------------------------------------------")
+        console.log("x : "+x);
+        console.log("y : "+y);
+
+        if(x>=0&&x<width && y<0||x>=0&&x<width && y<height && space[y][x]==0){
+
+            temp.push([y,x]);
+            
+        }else{
+            console.log("!!!!!!!!!!1unabled!!!!!!!!!!!!")
+            able=false;
+        }
+
+
+    })
+    
+
+    if(able){
+        for(let i=3; i>=0;i--){
+            now_tetris.arr[i]=temp.pop();
+            now_tetris.center=now_tetris.arr[now_tetris.centerN];
+        }
+
+        draw();
+        
+
+    }
+
+
 }
 
 function loop(){
@@ -134,6 +238,56 @@ function loop(){
 
     draw();
 }
+
+function turn(){
+
+    let able=true;
+    let temp=new Stack();
+
+    if(now_tetris.center){
+
+        now_tetris.arr.forEach((ele)=>{
+    
+            let temp1=ele[0];
+            let temp2=ele[1];
+    
+            let x=now_tetris.center[1]+(temp1-now_tetris.center[0]);
+            let y=now_tetris.center[0]+(now_tetris.center[1]-temp2);
+    
+            console.log("------------------------------------------")
+            console.log("x : "+x);
+            console.log("y : "+y);
+    
+            if(x>=0&&x<width && y<0||x>=0&&x<width && y<height && space[y][x]==0){
+    
+                temp.push([y,x]);
+                
+            }else{
+                console.log("!!!!!!!!!!1unabled!!!!!!!!!!!!")
+                able=false;
+            }
+    
+    
+        })
+    }else{
+        able=false;
+    }
+
+    if(able){
+        for(let i=3; i>=0;i--){
+            now_tetris.arr[i]=temp.pop();
+            now_tetris.center=now_tetris.arr[now_tetris.centerN];
+        }
+
+        draw();
+        
+
+    }
+    
+
+
+}
+
 
 function live_check(now){
 
@@ -147,6 +301,37 @@ function live_check(now){
             result= false;
         }
     })
+
+
+    if(result){
+
+        now.arr.forEach((ele)=>{
+
+            let found =false;
+
+            for(let i=0; i<width; i++){
+
+                if(space[ele[0]][i]==0){
+                    found=true;
+                }
+            }
+
+            if(!found){
+
+                
+                for(let i=0;  i<width;  i++){
+
+                    space[ele[0]][i]=0;
+                    eraseOne([ele[0],i]);
+                }
+
+            }
+
+        });
+
+
+
+    }
 
     return result;
 
