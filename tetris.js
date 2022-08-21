@@ -13,7 +13,7 @@ class Tetris{
         this.arr[1]=gen.base[1];
         
         let ran = Math.floor(Math.random()*5);
-
+    
         this.arr[2]=gen.cases[ran][0];
         this.arr[3]=gen.cases[ran][1];
 

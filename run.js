@@ -339,9 +339,9 @@ function live_check(now){
     if(result){
 
         now.arr.forEach((ele)=>{
+            
 
-
-            if(ele!="pass"){
+            if(ele[0]!="pass"){
 
                 let found =false;
 
@@ -372,16 +372,21 @@ function live_check(now){
                     space[0][i]=0;
                 }
 
+                let temp=ele[0];
+
                 now.arr.forEach((el)=>{
-                    if(el[0]<ele[0])
+                    if(el[0]<temp)
                     el[0]+=1;
-                    else if(el[0]==ele[0]){
+                    else if(el[0]==temp){
                         el[0]="pass";
                     }
                 })
 
             }
 
+            }else{
+                console.log(ele);
+                console.log("스킵된 것")
             }
             
 
