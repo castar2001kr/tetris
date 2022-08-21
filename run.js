@@ -44,10 +44,11 @@ btn.addEventListener("click",turn);
 
 let lft=document.getElementById("left");
 let rit=document.getElementById("right");
+let skp=document.getElementById("skipper");
 
 lft.addEventListener("click",mv_left);
 rit.addEventListener("click",mv_right);
-
+skp.addEventListener("click",skip);
 
 
 phase();
@@ -62,8 +63,12 @@ function key(e){
         mv_right();
     }else if(e.key=='x'){
         turn();
+    }else if(e.key=='c'){
+        skip();
     }
 }
+
+
 
 function phase(){
 
@@ -97,6 +102,20 @@ function phase(){
 
 
 
+}
+
+
+function skip(){
+    if(check_for_stop(now_tetris)){
+
+        loop();
+        console.log("tetris is going downside");
+        console.log(now_tetris.arr);
+
+        skip();
+    }else{
+        
+    }
 }
 
 function check_for_stop(now){
