@@ -48,8 +48,22 @@ let rit=document.getElementById("right");
 lft.addEventListener("click",mv_left);
 rit.addEventListener("click",mv_right);
 
-phase();
 
+
+phase();
+document.addEventListener("keydown",key);
+
+function key(e){
+    console.log(e.key);
+    if(e.key=='ArrowLeft'){
+        mv_left();
+    }
+    else if(e.key=='ArrowRight'){
+        mv_right();
+    }else if(e.key=='x'){
+        turn();
+    }
+}
 
 function phase(){
 
@@ -307,7 +321,10 @@ function live_check(now){
 
         now.arr.forEach((ele)=>{
 
-            let found =false;
+
+            if(ele!="pass"){
+
+                let found =false;
 
             for(let i=0; i<width; i++){
 
@@ -322,13 +339,52 @@ function live_check(now){
                 for(let i=0;  i<width;  i++){
 
                     space[ele[0]][i]=0;
-                    eraseOne([ele[0],i]);
+                    
                 }
+
+                for(let i=ele[0]; i>=1; i--){
+
+                    space[i]=space[i-1];
+
+                }
+                space[0]=new Array(width);
+
+                for(let i=0; i<width; i++){
+                    space[0][i]=0;
+                }
+
+                now.arr.forEach((el)=>{
+                    if(el[0]<ele[0])
+                    el[0]+=1;
+                    else if(el[0]==ele[0]){
+                        el[0]="pass";
+                    }
+                })
 
             }
 
+            }
+            
+
         });
 
+        for(let i=0; i<height; i++){
+            for(let j=0; j<width; j++){
+                eraseOne([i,j]);
+            }
+        }
+
+        for(let i=0; i<height; i++){
+            for(let j=0; j<width; j++){
+
+                if(space[i][j]==0){
+
+                    eraseOne([i,j]);
+                }else{
+                    drawOne([i,j]);
+                }
+            }
+        }
 
 
     }
