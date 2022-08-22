@@ -27,6 +27,13 @@ class Tetris{
 
         this.len = gen.len[ran];
 
+        this.color= ["red","blue","yellow","black"];
+        
+        let point = Math.floor(Math.random()*this.color.length);
+
+        this.color= this.color[point];
+        this.point=point+1;
+
     }
 
 }

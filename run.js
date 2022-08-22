@@ -7,6 +7,8 @@ const width = 10;
 
 const pix=10;
 
+let color= ["red","blue","yellow","black"];
+
 let phase_num=0;
 
 let space=new Array(height);
@@ -50,6 +52,8 @@ lft.addEventListener("click",mv_left);
 rit.addEventListener("click",mv_right);
 skp.addEventListener("click",skip);
 
+let total_score =0;
+let p =document.querySelector("po");
 
 phase();
 document.addEventListener("keydown",key);
@@ -141,22 +145,25 @@ function check_for_stop(now){
                 console.log( "0보다 큰 값 :"+ ele[0])
                 console.log("phase num : "+(phase_num-1))
                 
-                if(ele[0]==height-1||space[ele[0]+1][ele[1]]==1){
+                if(ele[0]==height-1||space[ele[0]+1][ele[1]]!=0){ //!!! ==1은 안됨!
                     found=true;
                     clearInterval(timerId);
                     console.log("clear interval");
-    
-                    arr.forEach((ele)=>{
                     
+                   
+                    let score = now.point;
+                    
+                    arr.forEach((ele)=>{
                         console.log("detected : "+ele);
     
                         if(ele[0]>=0)
-                        space[ele[0]][ele[1]]=1;
+                        space[ele[0]][ele[1]]=score;
                     })
     
     
                     if(live_check(now)){
                         console.log("새로운 페이즈 시작")
+                        p.innerHTML=total_score;
                         phase();
                     }else{
     
@@ -357,12 +364,14 @@ function live_check(now){
                 
                 for(let i=0;  i<width;  i++){
 
+                    total_score+=space[ele[0]][i];
                     space[ele[0]][i]=0;
                     
                 }
 
                 for(let i=ele[0]; i>=1; i--){
 
+                    
                     space[i]=space[i-1];
 
                 }
@@ -405,7 +414,7 @@ function live_check(now){
 
                     eraseOne([i,j]);
                 }else{
-                    drawOne([i,j]);
+                    drawOne([i,j],1);
                 }
             }
         }
@@ -430,7 +439,7 @@ function draw(){
     now_tetris.arr.forEach((ele)=>{
 
         console.log("drawing....")
-        drawOne(ele);
+        drawOne(ele,null);
         legacy.push([ele[0],ele[1]]);
 
     })
@@ -438,14 +447,28 @@ function draw(){
 
 }
 
-function drawOne(ele){
+function drawOne(ele,c){
 
-    if(ele[0]>=0){
+    if(c>=1){
 
+       
+
+            ctx.fillStyle=color[space[ele[0]][ele[1]]-1];
+            ctx.fillRect(ele[1]*pix,ele[0]*pix,pix,pix);
+            
+            
+            
+       
+    }else{
+        
+        ctx.fillStyle=now_tetris.color;
         ctx.fillRect(ele[1]*pix,ele[0]*pix,pix,pix);
     }
 
 }
+
+
+
 
 function eraseOne(ele){
 
