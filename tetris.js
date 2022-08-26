@@ -13,6 +13,7 @@ class Tetris{
         this.arr[1]=gen.base[1];
         
         let ran = Math.floor(Math.random()*5);
+        ran=0;
     
         this.arr[2]=gen.cases[ran][0];
         this.arr[3]=gen.cases[ran][1];
@@ -47,7 +48,7 @@ class Generator {
 
         this.base = [[0-4,0],[0-4,1]];
         this.cases=new Array();
-        this.cases[0] = [[0-4,2],[0-4,3],3];
+        this.cases[0] = [[0-4,2],[0-4,3],2];
         this.cases[1] = [[0-4,2],[1-4,2],1]; 
         this.cases[2] = [[0-4,2],[1-4,1],1];
         this.cases[3] = [[0-4,2],[1-4,0],1];
