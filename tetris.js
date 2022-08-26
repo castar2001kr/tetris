@@ -21,6 +21,7 @@ class Tetris{
 
             console.log("center is...."+ gen.cases[ran][2]);
             this.center = this.arr[gen.cases[ran][2]];
+            
             this.centerN =gen.cases[ran][2];
         }
         else this.center=0;
